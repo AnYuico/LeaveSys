@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: LeaveSystem
+
+  datasource:
+    url: jdbc:mysql://anyui.fun:3305/leavesystem?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: tzp1911
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      pool-name: HikariCP
+
+minio:
+  url: http://anyui.fun:9001
+  access-key: admin
+  secret-key: admin123456
+  bucket-name: leave-sys
+
+
