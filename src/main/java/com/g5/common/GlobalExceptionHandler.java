@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotRoleException.class)
     public Result<?> handleNotRoleException(NotRoleException e) {
         String role = e.getRole();
-        return Result.error("权限不足，缺少角色: " + (role.equals("2") ? "教师" : "领导"));
+        return Result.error("权限不足，需要角色: " + (role.equals("2") ? "教师" : "领导"));
     }
 
     // 你也可以处理其他 Sa-Token 异常，比如 NotLoginException 等
