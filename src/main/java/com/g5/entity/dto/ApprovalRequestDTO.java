@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class ApprovalRequestDTO {
+    private Integer approverId;
     private Integer leaveRequestId;
     private Byte result;
     private String comment;
+
 }

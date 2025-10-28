@@ -15,6 +15,10 @@ public enum LeaveTypeEnum {
         this.desc = desc;
     }
 
+    public byte getCode() {
+        return code;
+    }
+
     public static String getDescByCode(byte code) {
         for (LeaveTypeEnum type : values()) {
             if (type.code == code) {

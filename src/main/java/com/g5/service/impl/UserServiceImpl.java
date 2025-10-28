@@ -30,7 +30,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user != null && user.getPassword().equals(password)) {
             return Result.success(user);
         }
-        return null;
+        // 用户不存在或密码错误
+        return Result.error("用户名或密码错误");
     }
 
     @Override

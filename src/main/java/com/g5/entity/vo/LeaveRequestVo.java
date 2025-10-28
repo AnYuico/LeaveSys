@@ -10,6 +10,10 @@ public class LeaveRequestVo {
 
     private Integer leaveRequestId;
 
+    private Integer userId;     //请假学生的用户id
+
+    private String realName;    //请假学生的真实姓名
+
     private LocalDate startDate;
 
     private LocalDate endDate;

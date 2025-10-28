@@ -22,10 +22,12 @@ public interface ILeaveRequestService extends IService<LeaveRequest> {
 
     /**
      * 提交请假申请
+     *
      * @param userId
      * @param form
+     * @return
      */
-    void submitLeave(Long userId, LeaveRequestDTO form);
+    Long submitLeave(Long userId, LeaveRequestDTO form);
 
     /**
      * 获取审批详情
@@ -56,4 +58,19 @@ public interface ILeaveRequestService extends IService<LeaveRequest> {
      * @param response
      */
     void exportLastMonthLeaveRequests(int months, HttpServletResponse response) throws IOException;
+
+    /**
+     * 删除请假申请
+     * @param leaveRequestId
+     * @param currentUserId
+     * @return
+     */
+    boolean revokeLeaveRequest(Integer leaveRequestId, Integer currentUserId);
+
+    /**
+     * 查询审查过的请求
+     * @param approverId
+     * @return
+     */
+    List<LeaveRequestVo> getApprovedByApproverId(Integer approverId);
 }

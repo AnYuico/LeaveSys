@@ -100,7 +100,6 @@ public class ApprovalFlowController {
     public Result teacherApproval(@RequestBody ApprovalRequestDTO dto){
         Integer approverId = Integer.valueOf(StpUtil.getLoginId().toString());
 
-
         boolean success = approvalFlowService.approve(dto,approverId,(byte)1); //sequence 1等于老师审批
         if (success)return Result.success("审批成功");
         else return Result.error("审批失败");

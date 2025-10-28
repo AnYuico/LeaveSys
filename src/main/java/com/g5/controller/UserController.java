@@ -3,12 +3,13 @@ package com.g5.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import com.g5.common.Result;
 import com.g5.entity.User;
+import com.g5.entity.dto.RegisterDTO;
 import com.g5.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,54 +27,54 @@ public class UserController {
     private IUserService userService;
 
     /**
-     * 用户登录接口
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return 登录结果
+     * 登录
+     * @param params
+     * @return
      */
     @PostMapping("/login")
-    public Result login(@RequestParam String username, @RequestParam String password) {
-        System.out.println("进入Login方法"+username+password);
-        try {
-            Result<User> result = userService.login(username, password);
-            User user = result.getData();
-            if (user==null){
-                System.out.println("用户名或密码错误");
-                return Result.error("用户名或密码错误");
-            }else {
-                StpUtil.login(user.getUserId());
-                return Result.success(user);
-            }
-        } catch (Exception e) {
-            System.out.println("登录异常");
-            throw new RuntimeException(e);
+    public Result login(@RequestBody Map<String, String> params) {
+        String username = params.get("username");
+        String password = params.get("password");
+
+        Result<User> result = userService.login(username, password);
+
+        if (result.getData() != null) {
+            StpUtil.login(result.getData().getUserId());
+            Map<String, Object> data = new HashMap<>();
+            data.put("user", result.getData());
+            data.put("token", StpUtil.getTokenValue());
+            return Result.success(data);
         }
+        return result; // 返回错误信息
     }
 
+
     /**
-     * 用户注册接口
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return 注册结果
+     * 注册
+     * @param registerDTO
+     * @return
      */
     @PostMapping("/register")
-    public Result register(@RequestParam String username, @RequestParam String password,
-                           @RequestParam String realName,@RequestParam String role) {
-        System.out.println("进入Register方法"+username+password);
+    public Result<User> register(@RequestBody RegisterDTO registerDTO) {
+        System.out.println("进入Register方法: " + registerDTO.getUsername());
+        System.out.println(registerDTO.toString());
         try {
-            Result<User> result = userService.register(username, password, realName,role);
+            Result<User> result = userService.register(
+                    registerDTO.getUsername(),
+                    registerDTO.getPassword(),
+                    registerDTO.getRealName(),
+                    registerDTO.getRole()
+            );
+
             User user = result.getData();
             if (user == null) {
-                System.out.println("用户名已存在");
                 return Result.error("用户名已存在");
             } else {
                 return Result.success(user);
             }
         } catch (Exception e) {
             System.out.println("注册异常");
-            throw new RuntimeException(e);
+            return Result.error("注册异常，请重试");
         }
     }
 

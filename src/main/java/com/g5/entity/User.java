@@ -49,7 +49,7 @@ public class User implements Serializable {
     private String realName;
 
     /**
-     * 用户角色:1-学生,2-教师,3-管理员,4-其他
+     * 用户角色:1-学生,2-教师,3-领导,4-其他
      */
     @TableField("role")
     private Byte role;
@@ -83,4 +83,20 @@ public class User implements Serializable {
      */
     @TableField("is_deleted")
     private Byte isDeleted;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", realName='" + realName + '\'' +
+                ", role=" + role +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }

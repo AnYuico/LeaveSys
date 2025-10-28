@@ -14,6 +14,10 @@ public enum StatusEnum {
         this.desc = desc;
     }
 
+    public byte getCode() {
+        return code;
+    }
+
     public static String getDescByCode(byte code) {
         for (StatusEnum type : values()) {
             if (type.code == code) {

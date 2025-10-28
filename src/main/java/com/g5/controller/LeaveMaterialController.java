@@ -44,17 +44,32 @@ public class LeaveMaterialController {
                               @RequestParam("leaveRequestId") Integer leaveRequestId,
                               @RequestParam("materialType") String materialType,
                               @RequestParam(value = "description", required = false) String description) {
+
+        System.out.println("=== 进入文件上传接口 ===");
+        System.out.println("leaveRequestId: " + leaveRequestId);
+        System.out.println("materialType: " + materialType);
+        System.out.println("description: " + description);
+
+        System.out.println("文件信息: " + file.getOriginalFilename() + " (" +
+                file.getSize() + " bytes, " + file.getContentType() + ")");
+
         if (file.isEmpty()) {
+            System.out.println("文件为 null");
             return Result.error("文件不能为空");
         }
 
         String contentType = file.getContentType();
+        System.out.println("文件ContentType: " + contentType);
+
         if (contentType == null || !contentType.startsWith("image/")) {
-            return Result.error("只允许上传图片文件");
+            System.out.println("文件类型不符合要求: " + contentType);
+            return Result.error("只允许上传图片文件，当前类型: " + contentType);
         }
 
         try {
+            System.out.println("开始上传文件到MinIO...");
             String fileUrl = minioUtil.uploadFile(file);
+            System.out.println("文件上传到MinIO成功，URL: " + fileUrl);
 
             LeaveMaterial material = new LeaveMaterial();
             material.setLeaveRequestId(leaveRequestId);
@@ -65,10 +80,14 @@ public class LeaveMaterialController {
             material.setUpdateTime(LocalDateTime.now());
             material.setIsDeleted((byte) 0);
 
+            System.out.println("保存材料记录到数据库...");
             leaveMaterialService.save(material);
+            System.out.println("材料记录保存成功，ID: " + material.getLeaveMaterialId());
 
             return Result.success(fileUrl);
         } catch (Exception e) {
+            System.out.println("上传失败，异常信息: " + e.getMessage());
+            e.printStackTrace();
             return Result.error("上传失败：" + e.getMessage());
         }
     }

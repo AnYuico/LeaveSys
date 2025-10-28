@@ -94,7 +94,7 @@ public class WarningLogServiceImpl extends ServiceImpl<WarningLogMapper, Warning
 
         // 4. 生成预警列表
         List<WarningLog> warnings = new ArrayList<>();
-        long threshold = 3; // 假设请假超过3次触发预警
+        long threshold = 3; // 请假超过3次触发预警
         for (Map.Entry<Integer, Long> entry : leaveCountByStudent.entrySet()) {
             if (entry.getValue() > threshold) {
                 WarningLog warning = new WarningLog();

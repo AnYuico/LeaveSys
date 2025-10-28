@@ -1,5 +1,6 @@
 package com.g5.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import com.g5.common.Result;
 import com.g5.entity.vo.AttendanceStatVo;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Tzp
  * @since 2025-06-09
  */
-@SaCheckRole("2")//限制老师访问
+
 @RestController
 @RequestMapping("/attendance-stat")
 public class AttendanceStatController {
